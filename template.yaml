@@ -1,0 +1,333 @@
+theme: default # default || classic || dark
+organization: Morishima Lab, Waseda University
+twitter: '@Kakanat1105'
+title: |-
+  FDSML: Formula-Driven Supervised Metric Learning
+  with Parameter-Aware Triplet Loss
+journal: "WACV'27"
+resources:
+  paper: https://openreview.net/
+  arxiv: https://arxiv.org
+  code: https://github.com/ShineiArakawa/fdsml
+  # video: https://www.youtube.com/embed/onbnb_D1wC8?si=xJczUv716Lt5aO4l&amp;start=1150
+  # demo: https://colab.research.google.com/
+  huggingface: https://huggingface.co/fdsml
+description: academic projectpage template that supports markdown and KaTeX
+
+image: https://shineiarakawa.github.io/fdsml/teaser_fdsml.png
+url: https://shineiarakawa.github.io/fdsml
+speakerdeck: # speakerdeck slide ID
+authors:
+  - name: Hina Otake*
+    affiliation: [1]
+    url: http://denkiwakame.github.io/ # otakeさんにきく
+  - name: Shinei Arakawa*
+    affiliation: [1]
+    url: https://shineiarakawa.github.io/
+  - name: Keitaro Tanaka*
+    affiliation: [1]
+    url: https://sites.google.com/view/keitarotanaka/
+  - name: Yoshihiro Fukuhara
+    affiliation: [1, 2]
+    url: https://gatheluck.net/home/
+  - name: Hirokatsu Kataoka
+    affiliation: [2, 3]
+    url: https://hirokatsukataoka.net/
+  - name: Shigeo Morishima
+    affiliation: [1]
+    url: https://morishima-lab.jp/members?lang=en
+affiliations:
+  - Waseda University
+  - National Institute of Advanced Industrial Science and Technology
+  - University of Oxford
+meta:
+  - '* Equal contribution'
+bibtex: >
+  @inproceedings{Otake2027fdsml,
+    author    = {Hina Otake and Shinei Arakawa and Keitaro Tanaka and Yoshihiro Fukuhara and Hirokatsu Kataoka and Shigeo Morishima},
+    title     = {FDSML: Formula-Driven Supervised Metric Learning with Parameter-Aware Triplet Loss},
+    booktitle = {Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+    year      = {2027}
+  }
+
+teaser: teaser_fdsml.png
+abstract: |
+  Formula-Driven Supervised Learning (FDSL) enables vision pre-training without real images, but existing methods cast pre-training as classification on discretized labels, discarding continuity in the generative process.
+  We propose Formula-Driven Supervised Metric Learning (FDSML), which derives relational supervision from image-generation parameters beyond discrete class labels.
+  FDSML combines FineFractalDB, our refined fractal dataset with higher intra-class variation and more stable structures, with a Parameter-Aware Triplet (PA-Triplet) Loss that assigns positives and negatives according to distances in the underlying Iterated Function System parameter space.
+  This objective trains embeddings to respect parameter-derived relative similarity orderings.
+  Experiments show that FDSML improves transferability to image retrieval while remaining competitive on downstream classification and improving robustness under several corruption settings.
+  On ResNet-50, Recall@1 improves from $65.6\%$ to $74.0\%$ on Stanford Online Products and from $56.2\%$ to $78.4\%$ on Stanford Cars over FDSL pre-training.
+  These results suggest that parameter-derived relational supervision provides a stronger synthetic pre-training signal than label-based classification for transfer beyond recognition.
+
+body:
+  - title: Why FDSML?
+    text: |
+      Formula-Driven Supervised Learning (FDSL) pre-trains vision models on images rendered from mathematical formulas, so no real images, annotations, or privacy concerns are involved.
+      Existing FDSL methods, however, treat pre-training as **classification**: the continuous generation parameters are discretized into class labels, and everything that happens *inside* a class is thrown away.
+
+      <div class="uk-grid-small uk-child-width-1-2@m uk-margin-medium-top" uk-grid>
+        <div>
+          <div class="uk-card uk-card-default uk-card-body uk-card-small uk-height-1-1">
+            <h4 class="uk-card-title uk-margin-remove-bottom">Conventional FDSL</h4>
+            <ul class="uk-list uk-list-bullet uk-text-small uk-margin-small-top">
+              <li>Supervision: <em>"which class does this fractal belong to?"</em></li>
+              <li>Fine-grained geometric relations inside a class are discarded</li>
+              <li>Encourages memorization of instance-specific textures</li>
+              <li>Strong on classification, weak on retrieval and robustness</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="uk-card uk-card-primary uk-card-body uk-card-small uk-height-1-1">
+            <h4 class="uk-card-title uk-margin-remove-bottom">FDSML (Ours)</h4>
+            <ul class="uk-list uk-list-bullet uk-text-small uk-margin-small-top">
+              <li>Supervision: <em>"which of these two fractals is closer to the anchor?"</em></li>
+              <li>Relative orderings are derived from the continuous IFS parameter space</li>
+              <li>Learns <strong>how to compare</strong> visual structures instead of <strong>what to memorize</strong></li>
+              <li>Large gains on retrieval, competitive classification, better robustness (ResNet-50)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      Fractals are generated by an Iterated Function System (IFS), and their shapes change gradually as the affine parameters change.
+      We argue that this continuity is the supervision signal itself. Instead of asking a model to recognize categories, we ask it to respect the **relative similarity orderings** induced by the generative parameters.
+
+  - title: Parameter-Aware Triplet Loss
+    text: |
+      FDSML keeps the standard triplet objective and changes only **how positives and negatives are chosen**.
+
+      <div class="uk-grid-small uk-child-width-1-3@m uk-margin-medium-top uk-margin-medium-bottom" uk-grid>
+        <div>
+          <div class="uk-card uk-card-default uk-card-body uk-card-small uk-height-1-1">
+            <span class="uk-badge">1</span>
+            <h4 class="uk-margin-small-top uk-margin-remove-bottom">Sample</h4>
+            <p class="uk-text-small uk-margin-small-top">Draw an anchor <i>x</i><sub>a</sub> and two candidates <i>x</i><sub>1</sub>, <i>x</i><sub>2</sub> together with their IFS parameter descriptors <strong>&Psi;</strong><sub>a</sub>, <strong>&Psi;</strong><sub>1</sub>, <strong>&Psi;</strong><sub>2</sub>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="uk-card uk-card-default uk-card-body uk-card-small uk-height-1-1">
+            <span class="uk-badge">2</span>
+            <h4 class="uk-margin-small-top uk-margin-remove-bottom">Assign</h4>
+            <p class="uk-text-small uk-margin-small-top">The candidate closer to the anchor in <em>parameter space</em> becomes the positive, the other the negative. No class label is needed for this decision.</p>
+          </div>
+        </div>
+        <div>
+          <div class="uk-card uk-card-default uk-card-body uk-card-small uk-height-1-1">
+            <span class="uk-badge">3</span>
+            <h4 class="uk-margin-small-top uk-margin-remove-bottom">Train</h4>
+            <p class="uk-text-small uk-margin-small-top">Optimize the encoder so that <em>embedding-space</em> distances reproduce the ordering given by the parameter space.</p>
+          </div>
+        </div>
+      </div>
+
+      Each image $\boldsymbol{x}_i$ is generated by an IFS $\{(\boldsymbol{\psi}_k, \pi_k)\}_{k=1}^{N}$, where $\boldsymbol{\psi}_k \in \mathbb{R}^6$ are the affine parameters of map $k$ and $\pi_k$ its selection probability.
+      We summarize the generative process with a compact descriptor and a distance on it:
+
+      $$\boldsymbol{\Psi}_i = \sum_{k=1}^{N} \pi_k \, \boldsymbol{\psi}_k \in \mathbb{R}^6, \qquad d_{\boldsymbol{\Psi}}(i, j) = \lVert \boldsymbol{\Psi}_i - \boldsymbol{\Psi}_j \rVert_2 .$$
+
+      Given an anchor and two candidates, $\boldsymbol{x}_1$ is the positive and $\boldsymbol{x}_2$ the negative whenever $d_{\boldsymbol{\Psi}}(a, 1) \le d_{\boldsymbol{\Psi}}(a, 2)$, and the triplet is fed to the usual margin loss:
+
+      $$\mathcal{L}_{\mathrm{triplet}} = \max\Bigl(0,\; \lVert g_\theta(\boldsymbol{x}_a) - g_\theta(\boldsymbol{x}_p) \rVert_2 - \lVert g_\theta(\boldsymbol{x}_a) - g_\theta(\boldsymbol{x}_n) \rVert_2 + \alpha \Bigr).$$
+
+      Note that $d_{\boldsymbol{\Psi}}$ is used **only ordinally**, to decide which candidate is closer. It is not treated as a perceptual distance, so the embedding is trained to respect relative orderings rather than categorical separability.
+
+  - title: Filtering Triplet Candidates
+    text: |
+      Two fractals drawn at random from the whole dataset are usually so different that the comparison is trivial.
+      We therefore use the discrete class labels as a **coarse prior that restricts the candidate pool**; the final positive/negative assignment is still made by $d_{\boldsymbol{\Psi}}$.
+
+      <img src="filtering_triplet_candidates.png" alt="Four candidate filtering strategies: all, each, same, diff" class="uk-align-center" style="max-width: 900px; width: 100%;" />
+
+      <div class="uk-grid-small uk-child-width-1-2@s uk-child-width-1-4@m uk-text-small uk-margin-small-top" uk-grid>
+        <div><strong>(A) all</strong><br/>No restriction; both candidates come from anywhere.</div>
+        <div><strong>(B) each</strong><br/>One candidate from the anchor's class, one from another class.</div>
+        <div><strong>(C) same</strong><br/>Both candidates from the anchor's class: fine structural differences.</div>
+        <div><strong>(D) diff</strong><br/>Both candidates from other classes: large variations.</div>
+      </div>
+
+      Does the parameter ordering actually match what is rendered? We measured how often the candidate closer in $d_{\boldsymbol{\Psi}}$ is also closer under the symmetric Chamfer distance between the rendered shapes.
+
+      | Filtering | Agreement with $d_{\boldsymbol{\Psi}}$ | Label-only rule |
+      |:--|:--:|:--:|
+      | all  | 47.2 % | – |
+      | each | 89.2 % | 89.4 % |
+      | **same** | **80.6 %** | 50.0 % (chance) |
+      | diff | 46.8 % | 50.0 % (chance) |
+
+      Under **each**, the descriptor essentially reproduces the class label. Under **same**, no label rule exists at all, yet the descriptor still reaches 80.6 %: this is supervision that **class labels cannot provide even in principle**, and it is the regime where FDSML works best.
+
+  - title: FineFractalDB
+    text: |
+      FractalDB-1k creates its 1,000 instances per class from only 25 parameter perturbations combined with flips and rendering variations, and its affine maps are not forced to be contractive.
+      The result is low intra-class diversity (left, blue box) and collapsed, uninformative samples (right, red box), neither of which is good for fine-grained relational supervision.
+
+      <img src="finefractaldb_comparison.png" alt="FractalDB vs. FineFractalDB samples from one class" class="uk-align-center" />
+
+      **FineFractalDB** keeps the 1,000 classes × 1,000 images of FractalDB-1k but refines the generation process:
+
+      - **1,000 independent parameter perturbations per class** (instead of 25), so every instance is a distinct point in parameter space.
+      - **Strict contraction constraints** on every affine map, which keep the attractor stable.
+      - **Rejection sampling** on pixel occupancy (< 0.05 % discarded), which removes nearly empty renderings.
+
+      Drag the slider to compare random samples from the two datasets. Each row is one class, each column a different instance.
+
+      <img-comparison-slider class="uk-align-center" style="max-width: 900px; width: 100%;">
+        <img slot="first" src="fractaldb_samples.png" alt="Random samples from FractalDB-1k" />
+        <img slot="second" src="finefractaldb_samples.png" alt="Random samples from FineFractalDB" />
+      </img-comparison-slider>
+      <div class="uk-flex uk-flex-between uk-text-meta uk-margin-small-top" style="max-width: 900px; margin-left: auto; margin-right: auto;">
+        <span>&larr; FractalDB-1k</span><span>FineFractalDB &rarr;</span>
+      </div>
+
+  - title: Code & Pre-trained Models
+    text: |
+      <div class="uk-grid-small uk-child-width-1-3@m uk-margin-top" uk-grid>
+        <div>
+          <a class="uk-card uk-card-default uk-card-body uk-card-small uk-card-hover uk-height-1-1 uk-display-block uk-link-reset" href="https://github.com/ShineiArakawa/fdsml">
+            <h4 class="uk-card-title uk-margin-remove-bottom"><span uk-icon="icon: github"></span> Code</h4>
+            <p class="uk-text-small uk-margin-small-top">Dataset generation, FDSML pre-training, and fine-tuning / evaluation scripts for classification, retrieval, and robustness.</p>
+          </a>
+        </div>
+        <div>
+          <a class="uk-card uk-card-default uk-card-body uk-card-small uk-card-hover uk-height-1-1 uk-display-block uk-link-reset" href="https://huggingface.co/fdsml">
+            <h4 class="uk-card-title uk-margin-remove-bottom"><span uk-icon="icon: download"></span> Pre-trained weights</h4>
+            <p class="uk-text-small uk-margin-small-top">ResNet-50, ViT-Tiny, and ViT-Base checkpoints pre-trained with FDSML on FineFractalDB, hosted on Hugging Face.</p>
+          </a>
+        </div>
+        <div>
+          <a class="uk-card uk-card-default uk-card-body uk-card-small uk-card-hover uk-height-1-1 uk-display-block uk-link-reset" href="https://huggingface.co/datasets/fdsml/FineFractalDB">
+            <h4 class="uk-card-title uk-margin-remove-bottom"><span uk-icon="icon: database"></span> FineFractalDB</h4>
+            <p class="uk-text-small uk-margin-small-top">1,000 classes × 1,000 images with the IFS parameters of every image, so PA-Triplet supervision can be reproduced exactly.</p>
+          </a>
+        </div>
+      </div>
+
+  - title: Image Retrieval
+    text: |
+      Retrieval depends on the geometry of the embedding space rather than on decision boundaries, which makes it the most direct test of our claim.
+      With a ResNet-50 backbone fine-tuned with the Proxy-Anchor loss, FDSML pre-training on FineFractalDB consistently beats both training from scratch and classification-based FDSL on FractalDB-1k.
+
+      <div class="uk-grid-small uk-child-width-1-3@s uk-text-center uk-margin-medium-top uk-margin-medium-bottom" uk-grid>
+        <div>
+          <div class="uk-card uk-card-primary uk-card-body uk-card-small">
+            <div class="uk-text-small">Stanford Online Products · Recall@1</div>
+            <div class="uk-heading-small uk-margin-remove" style="white-space: nowrap;">65.6 → <strong>74.0</strong></div>
+            <div class="uk-text-small">+8.4 pt over FDSL</div>
+          </div>
+        </div>
+        <div>
+          <div class="uk-card uk-card-primary uk-card-body uk-card-small">
+            <div class="uk-text-small">Stanford Cars · Recall@1</div>
+            <div class="uk-heading-small uk-margin-remove" style="white-space: nowrap;">56.2 → <strong>78.4</strong></div>
+            <div class="uk-text-small">+22.2 pt over FDSL</div>
+          </div>
+        </div>
+        <div>
+          <div class="uk-card uk-card-primary uk-card-body uk-card-small">
+            <div class="uk-text-small">In-Shop Clothes · Recall@1</div>
+            <div class="uk-heading-small uk-margin-remove" style="white-space: nowrap;">87.3 → <strong>89.2</strong></div>
+            <div class="uk-text-small">+1.9 pt over FDSL</div>
+          </div>
+        </div>
+      </div>
+
+      | Pre-training (ResNet-50) | SOP R@1 | SOP R@10 | Cars R@1 | Cars R@4 | In-Shop R@1 | In-Shop R@10 |
+      |:--|:--:|:--:|:--:|:--:|:--:|:--:|
+      | Scratch | 70.4 | 83.1 | 40.9 | 61.5 | 87.2 | 95.7 |
+      | ImageNet-1k (supervised, real images) | 79.1 | 91.0 | 87.7 | 95.6 | 91.1 | 97.8 |
+      | FractalDB-1k, FDSL | 65.6 | 81.3 | 56.2 | 76.3 | 87.3 | 95.5 |
+      | **FineFractalDB, FDSML (same)** | **74.0** | **86.6** | **78.4** | **90.2** | **89.2** | **97.0** |
+
+      Two observations stand out. First, on SOP the FDSL model is actually **worse than training from scratch** (65.6 vs. 70.4 Recall@1): classification-based synthetic supervision does not automatically provide a useful inductive bias for embedding-based tasks.
+      Second, FDSML closes a large part of the gap to real-image pre-training while never seeing a natural image. The full table with all filtering strategies and Recall@K values is in the paper.
+
+  - title: Classification & Robustness
+    text: |
+      FDSML is designed for relational tasks, but it does not sacrifice category recognition. Top-1 accuracy after fine-tuning (%):
+
+      | Pre-training (ResNet-50) | CIFAR-10 | CIFAR-100 | ImageNet-100 | ImageNet-1k | Places-30 |
+      |:--|:--:|:--:|:--:|:--:|:--:|
+      | Scratch | 87.60 | 62.70 | 72.42 | 75.47 | 73.50 |
+      | ImageNet-1k (supervised) | 96.96 | 84.48 | – | – | 80.33 |
+      | FractalDB-1k, FDSL | 90.50 | **70.21** | 79.42 | 70.43 | 76.33 |
+      | **FineFractalDB, FDSML (same)** | **91.47** | 68.74 | **80.62** | **72.65** | **77.20** |
+
+      | Pre-training (ViT-Tiny) | CIFAR-10 | CIFAR-100 | ImageNet-100 | ImageNet-1k | Places-30 | Cars | Flowers |
+      |:--|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+      | Scratch | 76.47 | 58.02 | 70.08 | 71.46 | 81.17 | 21.30 | 48.74 |
+      | ImageNet-1k (supervised) | 97.92 | 85.65 | – | – | 81.48 | 91.26 | 93.70 |
+      | FractalDB-1k, FDSL | 96.65 | 81.18 | 84.40 | 72.40 | **80.46** | 77.01 | 73.99 |
+      | **FineFractalDB, FDSML (each)** | **98.00** | **82.08** | **88.90** | **73.71** | 80.35 | **83.17** | **74.21** |
+
+      On ViT-Tiny, FDSML lifts ImageNet-100 from 84.40 % to 88.90 % and even edges out supervised ImageNet-1k pre-training on CIFAR-10. The same trend holds for ViT-Base (see the paper).
+
+      ### The objective and the dataset are complementary
+
+      Ablation with ViT-Tiny (Top-1 %). Swapping the objective alone already helps; swapping the dataset helps **only** under FDSML.
+
+      | Objective | Dataset | CIFAR-10 | CIFAR-100 | ImageNet-100 |
+      |:--|:--|:--:|:--:|:--:|
+      | FDSL (cross-entropy) | FractalDB-1k | 96.65 | 81.18 | 84.40 |
+      | FDSL (cross-entropy) | FineFractalDB | 96.11 | 77.52 | 84.32 |
+      | FDSML (each) | FractalDB-1k | 97.77 | 81.72 | 87.93 |
+      | **FDSML (each)** | **FineFractalDB** | **98.00** | **82.08** | **88.90** |
+
+      Cross-entropy assigns the same label to every instance in a class, so it cannot exploit the extra intra-class variation of FineFractalDB and even suffers from it. PA-Triplet turns exactly that variation into supervision.
+
+      ### Robustness to corruptions
+
+      Classification error on ImageNet-C (lower is better), averaged within each corruption group:
+
+      | Backbone | Pre-training | Noise | Blur | Weather | Digital | Geometric |
+      |:--|:--|:--:|:--:|:--:|:--:|:--:|
+      | ResNet-50 | FractalDB-1k, FDSL | 86.16 | 74.82 | 71.94 | 60.36 | 61.15 |
+      | ResNet-50 | **FineFractalDB, FDSML (same)** | **83.62** | **72.87** | **68.81** | **57.46** | **59.13** |
+      | ViT-Tiny | FractalDB-1k, FDSL | **55.31** | 60.78 | 50.84 | **41.94** | 48.49 |
+      | ViT-Tiny | **FineFractalDB, FDSML (same)** | 59.26 | **60.06** | **47.64** | 43.55 | **47.97** |
+
+      For ResNet-50, FDSML improves every corruption group. For ViT-Tiny the picture is mixed: structural and environmental corruptions (blur, weather, geometric) improve, while high-frequency noise and digital corruptions get worse. We report this trade-off as is; understanding its frequency-domain cause is future work.
+
+  - title: Qualitative Analysis
+    text: |
+      ### Where does the model look?
+
+      Grad-CAM for ResNet-50 models fine-tuned on ImageNet-1k. FDSML produces activation maps that are concentrated on the object, qualitatively closer to the ImageNet pre-trained model, whereas FDSL responses are often diffuse or drift to the background.
+
+      <img src="grad_cam.jpg" alt="Grad-CAM comparison: ImageNet pre-trained, FDSL, FDSML" class="uk-align-center" />
+
+      <ul uk-accordion>
+        <li>
+          <a class="uk-accordion-title uk-text-small" href>Show more Grad-CAM examples</a>
+          <div class="uk-accordion-content">
+            <img src="grad_cam_more.jpg" alt="Additional Grad-CAM examples" class="uk-align-center" style="max-width: 820px; width: 100%;" />
+          </div>
+        </li>
+      </ul>
+
+      ### Attention inside the Transformer
+
+      Layer-wise CLS-to-patch attention of ViT-Tiny on a fractal input, from shallow (left) to deep (right). FDSL attends almost exclusively to the silhouette boundary; FDSML also attends to textured interior regions, which suggests it captures fine-grained appearance in addition to coarse structure.
+
+      <img src="layerwise_attn.png" alt="Layer-wise attention maps of ViT-Tiny" class="uk-align-center" />
+
+      ### Structure of the embedding space
+
+      UMAP projection of ResNet-50 features for ten FineFractalDB test classes. FDSML (each) organizes each class into structured trajectories that follow the generative parameters, with the images (A)–(D) sampled along one trajectory shown below each panel.
+
+      <img src="umap.png" alt="UMAP of embeddings learned with FDSL, FDSML (each), FDSML (same)" class="uk-align-center" style="max-width: 900px; width: 100%;" />
+
+  - title: Limitations
+    text: |
+      - **Only IFS fractals so far.** PA-Triplet could be instantiated for other formula-driven generators (e.g. VisualAtom, TileDB), but each needs its own similarity definition over its parameters and its own validation.
+      - **One-million-image scale.** Whether the gains from parameter-aware supervision persist at larger scales is an open question.
+      - **Extra overhead.** Descriptor computation and triplet construction add cost over cross-entropy FDSL; we have not analyzed this cost in detail.
+      - **Architecture-dependent robustness.** The ViT noise/digital trade-off above remains unexplained.
+
+  - title: License
+    text: |
+      The FDSML source code is released under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) (see [LICENSE](https://github.com/ShineiArakawa/fdsml/blob/main/LICENSE)).
+      Parts of the code are derived from the third-party projects below, which keep their original licenses (see [NOTICE.md](https://github.com/ShineiArakawa/fdsml/blob/main/NOTICE.md) for details).
+
+      This project page is built on the [academic-project-template](https://github.com/denkiwakame/academic-project-template) by denkiwakame, provided under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).

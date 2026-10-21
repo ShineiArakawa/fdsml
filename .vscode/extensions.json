@@ -1,0 +1,12 @@
+{
+  // Extensions VS Code will suggest installing when this folder is opened
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "redhat.vscode-yaml",
+    "tamasfe.even-better-toml",
+    "antfu.browse-lite"
+  ],
+  // Python extensions are not needed on this branch
+  "unwantedRecommendations": ["ms-python.python", "ms-python.vscode-pylance"]
+}

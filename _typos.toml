@@ -1,0 +1,46 @@
+# Configuration for typos (https://github.com/crate-ci/typos)
+# Register proper nouns here so the typos check in CI does not flag them.
+# Format: lowercase word = "correct spelling" (mapping a word to itself marks it as valid)
+
+[default]
+# Skip BibTeX citation keys (e.g. otake2027fdsml) and arXiv IDs
+extend-ignore-identifiers-re = [
+  "[a-z]+20[0-9]{2}[a-z]+",   # BibTeX citation key
+  "\\d{4}\\.\\d{4,5}",         # arXiv ID
+]
+
+[default.extend-words]
+# Used in the example text of the template README (safe to remove)
+teh = "teh"
+
+# --- authors ---
+hina = "hina"
+otake = "otake"
+shinei = "shinei"
+arakawa = "arakawa"
+keitaro = "keitaro"
+tanaka = "tanaka"
+yoshihiro = "yoshihiro"
+fukuhara = "fukuhara"
+hirokatsu = "hirokatsu"
+kataoka = "kataoka"
+shigeo = "shigeo"
+morishima = "morishima"
+
+# --- method / dataset / model names ---
+fdsml = "fdsml"
+fdsl = "fdsl"
+fractaldb = "fractaldb"
+finefractaldb = "finefractaldb"
+deit = "deit"
+mocov3 = "mocov3"
+timm = "timm"
+wacv = "wacv"
+
+[files]
+# Generated files and media are not checked
+extend-exclude = [
+  "package-lock.json",
+  "public/",
+  "build/",
+]
