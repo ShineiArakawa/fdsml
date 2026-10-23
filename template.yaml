@@ -331,3 +331,7 @@ body:
       Parts of the code are derived from the third-party projects below, which keep their original licenses (see [NOTICE.md](https://github.com/ShineiArakawa/fdsml/blob/main/NOTICE.md) for details).
 
       This project page is built on the [academic-project-template](https://github.com/denkiwakame/academic-project-template) by denkiwakame, provided under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+
+  - title: Acknowledgements
+    text: |
+      This work was supported by JSPS KAKENHI Grant Numbers JP24H00742 and JP24H00748, JST SPRING Grant Number JPMJSP2128, and computational resources of ABCI 3.0 provided by AIST and AIST Solutions.
