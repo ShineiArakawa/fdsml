@@ -295,5 +295,5 @@ See [NOTICE.md](./NOTICE.md) and the license files under [docs/](./docs/) for de
 
 ## Acknowledgements
 
-This repository template is built on top of the [edm2](https://github.com/NVlabs/edm2) repository. We thank the authors for their great work and for open-sourcing their code. This work was supported by JSPS KAKENHI Grant Numbers JP24H00742 and JP24H00748, JST SPRING Grant Number JPMJSP2128, and computational resources of ABCI~3.0 provided by AIST and AIST Solutions.
+This repository template is built on top of the [edm2](https://github.com/NVlabs/edm2) repository. We thank the authors for their great work and for open-sourcing their code. This work was supported by JSPS KAKENHI Grant Numbers JP24H00742 and JP24H00748, JST SPRING Grant Number JPMJSP2128, and computational resources of ABCI 3.0 provided by AIST and AIST Solutions.
 
