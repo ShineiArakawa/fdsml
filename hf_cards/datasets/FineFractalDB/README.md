@@ -13,6 +13,24 @@ tags:
   - synthetic-data
   - pre-training
   - iterated-function-system
+configs:
+  - config_name: default
+    data_files:
+      - split: train
+        path: data/train-*.parquet
+dataset_info:
+  features:
+    - name: image
+      dtype: image
+    - name: label
+      dtype: int64
+    - name: weight_id
+      dtype: int64
+    - name: params
+      list: float32
+      length: 6
+    - name: file_name
+      dtype: string
 ---
 
 # FineFractalDB
@@ -32,7 +50,37 @@ Compared with FractalDB-1k, the generation process is refined for higher intra-c
 
 ## Contents
 
-A single archive `finefractaldb.zip` (about 11.5 GB) that extracts to:
+The dataset is provided in two equivalent forms:
+
+- `finefractaldb.zip` (about 11.5 GB): the original image-folder archive used by the [official code](https://github.com/ShineiArakawa/fdsml).
+- `data/train-*.parquet` (about 11.5 GB in total): the same images and parameters as Parquet shards. This is what the Dataset Viewer above shows and what `datasets.load_dataset` reads.
+
+### Parquet shards
+
+Each row has the following columns:
+
+| Column | Type | Description |
+|---|---|---|
+| `image` | image | 362×362 RGB PNG |
+| `label` | int64 | class (IFS) index, `0`–`999` |
+| `weight_id` | int64 | per-class instance index, `0`–`999` |
+| `params` | list of 6 float32 | instance parameters `wa, wb, wc, wd, we, wf` (last row of the corresponding CSV) |
+| `file_name` | string | path of the image inside `finefractaldb.zip` |
+
+```python
+from datasets import load_dataset
+
+ds = load_dataset("fdsml/FineFractalDB", split="train", streaming=True)
+example = next(iter(ds))
+example["image"].show()
+print(example["label"], example["params"])
+```
+
+The shards are generated from the zip with `tools/create_hf_parquet.py` in the official code.
+
+### Zip archive
+
+`finefractaldb.zip` extracts to:
 
 ```text
 finefractaldb/
@@ -58,9 +106,17 @@ Images are rendered with the 3×3 patch option (`--patch`) and random seed 0, ex
 
 ## Download
 
+To train with the official code, download and extract the zip archive:
+
 ```bash
 hf download fdsml/FineFractalDB finefractaldb.zip --repo-type dataset --local-dir datasets
 unzip datasets/finefractaldb.zip -d datasets
+```
+
+To download only the Parquet shards:
+
+```bash
+hf download fdsml/FineFractalDB --include "data/*.parquet" --repo-type dataset --local-dir datasets/finefractaldb_parquet
 ```
 
 The dataset can also be regenerated from scratch with the [official code](https://github.com/ShineiArakawa/fdsml#generate-finefractaldb) in about 15 minutes on a 4-core CPU.
