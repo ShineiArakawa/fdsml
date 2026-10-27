@@ -252,6 +252,8 @@ Each row has the following columns:
 | `params` | list of 6 float32 | instance parameters `wa, wb, wc, wd, we, wf` (last row of the corresponding CSV) |
 | `file_name` | string | path of the image inside `finefractaldb.zip` |
 
+Reading the Parquet shards requires the [`datasets`](https://huggingface.co/docs/datasets) library (`pip install datasets`), which decodes the `image` column into PIL images:
+
 ```python
 from datasets import load_dataset
 
@@ -261,7 +263,7 @@ example["image"].show()
 print(example["label"], example["params"])
 ```
 
-The shards are generated from the zip with `tools/create_hf_parquet.py` in the official code.
+The shards are generated from the zip with `tools/create_hf_parquet.py` in the official code. Note that the official training code reads `finefractaldb.zip` directly and does not depend on the `datasets` library or the Parquet shards.
 
 ### Zip archive
 
