@@ -37,6 +37,8 @@ mocov3 = "mocov3"
 timm = "timm"
 wacv = "wacv"
 
+strat = "strat"
+
 [files]
 # Generated files and media are not checked
 extend-exclude = [
