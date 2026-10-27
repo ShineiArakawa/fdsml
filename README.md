@@ -4,7 +4,7 @@
 
 **FDSML: Formula-Driven Supervised Metric Learning with Parameter-Aware Triplet Loss** (WACV 2027)<br>
 Hina Otake*, Shinei Arakawa*, Keitaro Tanaka*, Yoshihiro Fukuhara, Hirokatsu Kataoka, Shigeo Morishima (*equal contribution)<br>
-[[paper]](https://arxiv.org/abs/XXXX.XXXXX) [[project page]](https://shineiarakawa.github.io/fdsml/)<br>
+[[paper (coming soon)]](https://arxiv.org/abs/XXXX.XXXXX) [[project page]](https://shineiarakawa.github.io/fdsml/)<br>
 
 ## Requirements
 
@@ -84,6 +84,8 @@ The `--ckpt` option also accepts HTTP(S), Google Drive, and SSH paths. For examp
 ```
 
 where `gpu-server` is an alias defined in `~/.ssh/config`. The checkpoint is downloaded and cached locally before loading.
+
+For image retrieval, we used [Proxy-Anchor](https://github.com/sung-yeon-kim/Proxy-Anchor-CVPR2020) to fine-tune and evaluate the pre-trained models. For robustness evaluation, we used [hendrycks/robustness](https://github.com/hendrycks/robustness).
 
 ## Generate FineFractalDB
 

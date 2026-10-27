@@ -58,6 +58,7 @@ nfdpy = { git = "https://github.com/ShineiArakawa/nfdpy.git" }
 [dependency-groups]
 dev = [
     "huggingface-hub>=2.2.0",
+    "pyarrow>=26.0.0",
 ]
 viz = [
     "cachetools>=7.0.6",
