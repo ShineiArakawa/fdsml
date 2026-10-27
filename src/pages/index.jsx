@@ -22,6 +22,7 @@ class Template extends React.Component {
         <Helmet
           title={flatTitle}
           link={[
+            { rel: 'canonical', href: data.url },
             { rel: 'icon', type: 'image/x-icon', href: 'favicon.ico' },
             {
               rel: 'icon',

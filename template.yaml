@@ -12,10 +12,10 @@ resources:
   # video: https://www.youtube.com/embed/onbnb_D1wC8?si=xJczUv716Lt5aO4l&amp;start=1150
   # demo: https://colab.research.google.com/
   huggingface: https://huggingface.co/fdsml
-description: academic projectpage template that supports markdown and KaTeX
+description: FDSML pre-trains vision models on synthetic fractal images with a Parameter-Aware Triplet Loss, improving image retrieval without any real images. WACV 2027.
 
 image: https://shineiarakawa.github.io/fdsml/teaser_fdsml.png
-url: https://shineiarakawa.github.io/fdsml
+url: https://shineiarakawa.github.io/fdsml/
 speakerdeck: # speakerdeck slide ID
 authors:
   - name: Hina Otake*
