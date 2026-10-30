@@ -12,13 +12,14 @@ tags:
   - synthetic-data
   - pre-training
   - vit
+  - arxiv:2610.39423
 ---
 
 # FDSML ViT-Base (DeiT-Base/16, 224) — `diff` strategy
 
 ViT-Base (DeiT-Base/16, 224) pre-trained on [FineFractalDB](https://huggingface.co/datasets/fdsml/FineFractalDB) with **FDSML** (Formula-Driven Supervised Metric Learning) using the Parameter-Aware Triplet Loss and the **`diff`** triplet selection strategy. No natural images are used during pre-training. The main ViT-Base results in the paper use the [`each`](https://huggingface.co/fdsml/fdsml-finefractaldb-vitbase-each) strategy.
 
-- **Paper:** arXiv link coming soon
+- **Paper:** https://arxiv.org/abs/2610.39423
 - **Project page:** https://shineiarakawa.github.io/fdsml/
 - **Code:** https://github.com/ShineiArakawa/fdsml
 - **Dataset:** https://huggingface.co/datasets/fdsml/FineFractalDB

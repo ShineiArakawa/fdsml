@@ -13,6 +13,7 @@ tags:
   - synthetic-data
   - pre-training
   - iterated-function-system
+  - arxiv:2610.39423
 configs:
   - config_name: default
     data_files:
@@ -37,7 +38,7 @@ dataset_info:
 
 FineFractalDB is a synthetic image dataset for pre-training vision models **without any natural images**. It consists of **1,000 classes × 1,000 images = 1,000,000 images**. Each class corresponds to one Iterated Function System (IFS), and each image is rendered from that IFS with randomized instance-level parameters. Unlike FractalDB, every image is paired with the exact parameters used to render it, which enables parameter-aware objectives such as the Parameter-Aware Triplet Loss proposed in FDSML.
 
-- **Paper:** arXiv link coming soon
+- **Paper:** https://arxiv.org/abs/2610.39423
 - **Project page:** https://shineiarakawa.github.io/fdsml/
 - **Code:** https://github.com/ShineiArakawa/fdsml
 - **Pre-trained models:** https://huggingface.co/fdsml

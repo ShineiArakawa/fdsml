@@ -6,7 +6,7 @@ Hina Otake\*, Shinei Arakawa\*, Keitaro Tanaka\*, Yoshihiro Fukuhara, Hirokatsu 
 
 FDSML pre-trains vision models on synthetic fractal images only, without any natural images. Every image in FineFractalDB is paired with the parameters that generated it, and the Parameter-Aware Triplet Loss uses these parameters to shape the embedding space. With ResNet-50, FDSML raises Recall@1 over FDSL pre-training from 65.6% to 74.0% on Stanford Online Products and from 56.2% to 78.4% on Stanford Cars, while staying competitive on classification.
 
-- **Paper:** arXiv link coming soon
+- **Paper:** https://arxiv.org/abs/2610.39423
 - **Project page:** https://shineiarakawa.github.io/fdsml/
 - **Code:** https://github.com/ShineiArakawa/fdsml
 

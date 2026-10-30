@@ -12,13 +12,14 @@ tags:
   - synthetic-data
   - pre-training
   - resnet
+  - arxiv:2610.39423
 ---
 
 # FDSML ResNet-50 — `all` strategy
 
 ResNet-50 pre-trained on [FineFractalDB](https://huggingface.co/datasets/fdsml/FineFractalDB) with **FDSML** (Formula-Driven Supervised Metric Learning) using the Parameter-Aware Triplet Loss and the **`all`** triplet selection strategy. No natural images are used during pre-training. The main ResNet-50 results in the paper use the [`same`](https://huggingface.co/fdsml/fdsml-finefractaldb-resnet50-same) strategy.
 
-- **Paper:** arXiv link coming soon
+- **Paper:** https://arxiv.org/abs/2610.39423
 - **Project page:** https://shineiarakawa.github.io/fdsml/
 - **Code:** https://github.com/ShineiArakawa/fdsml
 - **Dataset:** https://huggingface.co/datasets/fdsml/FineFractalDB

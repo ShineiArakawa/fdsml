@@ -6,8 +6,8 @@ title: |-
   with Parameter-Aware Triplet Loss
 journal: "WACV'27"
 resources:
-  paper: https://openreview.net/
-  arxiv: https://arxiv.org
+  # paper: https://openreview.net/
+  arxiv: https://arxiv.org/abs/2610.39423
   code: https://github.com/ShineiArakawa/fdsml
   # video: https://www.youtube.com/embed/onbnb_D1wC8?si=xJczUv716Lt5aO4l&amp;start=1150
   # demo: https://colab.research.google.com/
