@@ -4,7 +4,7 @@
 
 **FDSML: Formula-Driven Supervised Metric Learning with Parameter-Aware Triplet Loss** (WACV 2027)<br>
 Hina Otake*, Shinei Arakawa*, Keitaro Tanaka*, Yoshihiro Fukuhara, Hirokatsu Kataoka, Shigeo Morishima (*equal contribution)<br>
-[[paper (coming soon)]](https://arxiv.org/abs/XXXX.XXXXX) [[project page]](https://shineiarakawa.github.io/fdsml/)<br>
+[[paper]](https://arxiv.org/abs/2610.39423) [[project page]](https://shineiarakawa.github.io/fdsml/)<br>
 
 ## Requirements
 
